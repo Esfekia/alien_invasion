@@ -21,7 +21,7 @@ class AlienInvasion:
 		pygame.display.set_caption("Alien Invasion")
 
 		self.ship = Ship(self)
-
+		self.bullets = pygame.sprite.Group()
 		
 	def run_game(self):
 		"""Start the main loop for the game."""
@@ -31,6 +31,9 @@ class AlienInvasion:
 
 			#Update ship's position.
 			self.ship.update()
+
+			#Update the bullets' position.
+			self.bullets.update()
 
 			#Redraw the screen during each pass through the loop.
 			self._update_screen()

@@ -45,6 +45,9 @@ class AlienInvasion:
 				if bullet.rect.bottom <= 0:
 					self.bullets.remove(bullet)
 
+			#Update the Alien's movement:
+			self._update_aliens()
+
 			#Redraw the screen during each pass through the loop.
 			self._update_screen()
 			
@@ -82,6 +85,10 @@ class AlienInvasion:
 		if len(self.bullets) < self.settings.bullets_allowed:
 			new_bullet = Bullet(self)
 			self.bullets.add(new_bullet)
+
+	def _update_aliens(self):
+		"""Update the positions of all aliens in the fleet."""
+		self.aliens.update()
 
 	def _create_fleet(self):
 		"""Create the fleet of aliens."""

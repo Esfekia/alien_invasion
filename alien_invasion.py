@@ -116,7 +116,7 @@ class AlienInvasion:
 				self._create_alien(alien_number, row_number)
 
 	def _create_alien(self, alien_number, row_number):
-		"""Create an alien and place itin the row."""
+		"""Create an alien and place it in the row."""
 		alien = Alien(self)
 		alien_width, alien_height = alien.rect.size
 		alien.x = alien_width + 2*alien_width*alien_number

@@ -1,11 +1,12 @@
 import sys
-
+from time import sleep
 import pygame
 
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+from gamestats import GameStats
 
 class AlienInvasion:
 	"""Overall class to manage game assets and behavior."""
@@ -22,6 +23,8 @@ class AlienInvasion:
 		self.settings.screen_height = self.screen.get_rect().height
 		pygame.display.set_caption("Alien Invasion")
 
+		#Create an instance to store game statistics.
+		self.stats = GameStats(self)
 		self.ship = Ship(self)
 		self.bullets = pygame.sprite.Group()
 		self.aliens = pygame.sprite.Group()

@@ -37,16 +37,18 @@ class AlienInvasion:
 			# Watch for keyboard and mouse events.
 			self._check_events()
 
-			#Update ship's position.
-			self.ship.update()
+			# Check if game still active first!
+			if self.stats.game_active:
+				# Update ship's position.
+				self.ship.update()
 
-			#Update the bullets' position.
-			self._update_bullets()
+				# Update the bullets' position.
+				self._update_bullets()
 
-			#Update the Alien's movement:
-			self._update_aliens()
+				# Update the Alien's movement:
+				self._update_aliens()
 
-			#Redraw the screen during each pass through the loop.
+			# Redraw the screen during each pass through the loop.
 			self._update_screen()
 			
 	def _check_events(self):
@@ -86,19 +88,25 @@ class AlienInvasion:
 
 	def _ship_hit(self):
 		"""Respond to the ship being hit by an alien."""
-		#Decrement ships_left.
-		self.stats.ships_left -= 1
+		#Check how many lives left first!
+		if self.stats.ships_left >0:
 
-		#Get rid of any remaining aliens and bullets.
-		self.aliens.empty()
-		self.bullets.empty()
+			#Decrement ships_left.
+			self.stats.ships_left -= 1
+
+			#Get rid of any remaining aliens and bullets.
+			self.aliens.empty()
+			self.bullets.empty()
 		
-		#Create a new fleet and center the ship.
-		self._create_fleet()
-		self.ship.center_ship()
+			#Create a new fleet and center the ship.
+			self._create_fleet()
+			self.ship.center_ship()
 
-		#Pause
-		sleep(1)
+			#Pause
+			sleep(1)
+
+		else:
+			self.stats.game_active = False
 
 	def _check_aliens_bottom(self):
 		"""Check if any aliens have reached the bottom of the screen."""

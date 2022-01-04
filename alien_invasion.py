@@ -34,8 +34,8 @@ class AlienInvasion:
 		self._create_fleet()
 
 		#Make the EasyPlay button.
-		self.play_button_easy = Button1(self, "Easy")
-		self.play_button_hard = Button2(self, "Hard")
+		self.play_button_easy = Button1(self, "(E)asy")
+		self.play_button_hard = Button2(self, "(H)ard")
 		
 	def run_game(self):
 		"""Start the main loop for the game."""
@@ -75,43 +75,48 @@ class AlienInvasion:
 		"""Start a new game when the player clicks Play"""
 		button_clicked = self.play_button_easy.rect.collidepoint(mouse_pos)
 		if button_clicked and not self.stats.game_active:	
-			#Reset the game statistics and set active flag
-			self.stats.reset_stats()
-			self.stats.game_active = True
-
-			#Get rid of remaining aliens and bullets
-			self.aliens.empty()
-			self.bullets.empty()
-
-			#Create a new fleet and center the ship:
-			self._create_fleet()
-			self.ship.center_ship()
-
-			#Hide the mouse cursor
-			pygame.mouse.set_visible(False)
+			self.start_easy()
 
 	def _check_play_button_hard(self, mouse_pos):
 		"""Start a new game when the player clicks Play"""
 		button_clicked = self.play_button_hard.rect.collidepoint(mouse_pos)
 		if button_clicked and not self.stats.game_active:	
-			#Reset the game statistics and set active flag
-			self.stats.reset_stats()
-			self.stats.game_active = True
-			self.settings.ship_speed*=self.settings.initial_difficulty_multiplier
-			self.settings.bullet_speed*=self.settings.initial_difficulty_multiplier
-			self.settings.alien_speed*=self.settings.initial_difficulty_multiplier
-			
+			self.start_hard()
 
-			#Get rid of remaining aliens and bullets
-			self.aliens.empty()
-			self.bullets.empty()
+	def start_easy(self):
+	#Reset the game statistics and set active flag
+		self.stats.reset_stats()
+		self.stats.game_active = True
 
-			#Create a new fleet and center the ship:
-			self._create_fleet()
-			self.ship.center_ship()
+		#Get rid of remaining aliens and bullets
+		self.aliens.empty()
+		self.bullets.empty()
 
-			#Hide the mouse cursor
-			pygame.mouse.set_visible(False)
+		#Create a new fleet and center the ship:
+		self._create_fleet()
+		self.ship.center_ship()
+
+		#Hide the mouse cursor
+		pygame.mouse.set_visible(False)
+
+	def start_hard(self):
+		#Reset the game statistics and set active flag
+		self.stats.reset_stats()
+		self.stats.game_active = True
+		self.settings.ship_speed*=self.settings.initial_difficulty_multiplier
+		self.settings.bullet_speed*=self.settings.initial_difficulty_multiplier
+		self.settings.alien_speed*=self.settings.initial_difficulty_multiplier
+		
+		#Get rid of remaining aliens and bullets
+		self.aliens.empty()
+		self.bullets.empty()
+
+		#Create a new fleet and center the ship:
+		self._create_fleet()
+		self.ship.center_ship()
+
+		#Hide the mouse cursor
+		pygame.mouse.set_visible(False)
 
 	def _check_keydown_events(self,event):
 		"""Respond to key presses."""
@@ -123,22 +128,10 @@ class AlienInvasion:
 			self._fire_bullet()
 		elif event.key == pygame.K_q:
 			sys.exit()
-		elif event.key == pygame.K_p and not self.stats.game_active:	
-			#Reset the game statistics and set active flag
-			self.stats.reset_stats()
-			self.stats.game_active = True
-
-			#Get rid of remaining aliens and bullets
-			self.aliens.empty()
-			self.bullets.empty()
-
-			#Create a new fleet and center the ship:
-			self._create_fleet()
-			self.ship.center_ship()
-
-			#Hide the mouse cursor
-			pygame.mouse.set_visible(False)
-
+		elif event.key == pygame.K_e and not self.stats.game_active:	
+			self.start_easy()
+		elif event.key == pygame.K_h and not self.stats.game_active:
+			self.start_hard()
 		
 	def _check_keyup_events(self,event):
 		"""Respond to key releases."""
@@ -157,7 +150,7 @@ class AlienInvasion:
 	def _ship_hit(self):
 		"""Respond to the ship being hit by an alien."""
 		#Check how many lives left first!
-		if self.stats.ships_left >0:
+		if self.stats.ships_left > 0:
 
 			#Decrement ships_left.
 			self.stats.ships_left -= 1
@@ -174,6 +167,7 @@ class AlienInvasion:
 			sleep(1)
 
 		else:
+			self.stats.reset_stats()
 			self.stats.game_active = False
 			pygame.mouse.set_visible(True)
 

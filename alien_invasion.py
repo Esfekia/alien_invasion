@@ -7,7 +7,8 @@ from ship import Ship
 from bullet import Bullet
 from alien import Alien
 from game_stats import GameStats
-from button import Button
+from button1 import Button1
+from button2 import Button2
 
 class AlienInvasion:
 	"""Overall class to manage game assets and behavior."""
@@ -32,8 +33,9 @@ class AlienInvasion:
 
 		self._create_fleet()
 
-		#Make the Play button.
-		self.play_button = Button(self, "Play")
+		#Make the EasyPlay button.
+		self.play_button_easy = Button1(self, "Easy")
+		self.play_button_hard = Button2(self, "Hard")
 		
 	def run_game(self):
 		"""Start the main loop for the game."""
@@ -66,15 +68,39 @@ class AlienInvasion:
 					self._check_keyup_events(event)
 				elif event.type == pygame.MOUSEBUTTONDOWN:
 					mouse_pos = pygame.mouse.get_pos()
-					self._check_play_button(mouse_pos)
+					self._check_play_button_hard(mouse_pos)
+					self._check_play_button_easy(mouse_pos)
 
-	def _check_play_button(self, mouse_pos):
+	def _check_play_button_easy(self, mouse_pos):
 		"""Start a new game when the player clicks Play"""
-		button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+		button_clicked = self.play_button_easy.rect.collidepoint(mouse_pos)
 		if button_clicked and not self.stats.game_active:	
 			#Reset the game statistics and set active flag
 			self.stats.reset_stats()
 			self.stats.game_active = True
+
+			#Get rid of remaining aliens and bullets
+			self.aliens.empty()
+			self.bullets.empty()
+
+			#Create a new fleet and center the ship:
+			self._create_fleet()
+			self.ship.center_ship()
+
+			#Hide the mouse cursor
+			pygame.mouse.set_visible(False)
+
+	def _check_play_button_hard(self, mouse_pos):
+		"""Start a new game when the player clicks Play"""
+		button_clicked = self.play_button_hard.rect.collidepoint(mouse_pos)
+		if button_clicked and not self.stats.game_active:	
+			#Reset the game statistics and set active flag
+			self.stats.reset_stats()
+			self.stats.game_active = True
+			self.settings.ship_speed*=self.settings.initial_difficulty_multiplier
+			self.settings.bullet_speed*=self.settings.initial_difficulty_multiplier
+			self.settings.alien_speed*=self.settings.initial_difficulty_multiplier
+			
 
 			#Get rid of remaining aliens and bullets
 			self.aliens.empty()
@@ -256,10 +282,10 @@ class AlienInvasion:
 		#Draw the aliens
 		self.aliens.draw(self.screen)
 
-		# Draw the play button if the game is inactive.
+		# Draw the play buttons if the game is inactive.
 		if not self.stats.game_active:
-			self.play_button.draw_button()
-			
+			self.play_button_easy.draw_button()
+			self.play_button_hard.draw_button()
 		#Make the most recently drawn screen visible.
 		pygame.display.flip()
 

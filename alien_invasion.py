@@ -93,6 +93,7 @@ class AlienInvasion:
 		self.stats.game_active = True
 		self.sb.prep_score()
 		self.sb.prep_level()
+		self.sb.prep_ships()
 
 		#Get rid of remaining aliens and bullets
 		self.aliens.empty()
@@ -110,6 +111,7 @@ class AlienInvasion:
 		self.stats.reset_stats()
 		self.sb.prep_score()
 		self.sb.prep_level()
+		self.sb.prep_ships()
 		self.stats.game_active = True
 		self.settings.ship_speed*=self.settings.initial_difficulty_multiplier
 		self.settings.bullet_speed*=self.settings.initial_difficulty_multiplier
@@ -160,8 +162,9 @@ class AlienInvasion:
 		#Check how many lives left first!
 		if self.stats.ships_left > 0:
 
-			#Decrement ships_left.
+			#Decrement ships_left and update the scoreboard.
 			self.stats.ships_left -= 1
+			self.sb.prep_ships()
 
 			#Get rid of any remaining aliens and bullets.
 			self.aliens.empty()

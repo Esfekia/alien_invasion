@@ -34,7 +34,6 @@ class AlienInvasion:
 		self.ship = Ship(self)
 		self.bullets = pygame.sprite.Group()
 		self.aliens = pygame.sprite.Group()
-
 		self._create_fleet()
 
 		#Make the EasyPlay button.
@@ -178,6 +177,9 @@ class AlienInvasion:
 			sleep(1)
 
 		else:
+			filename = 'high_score.txt'
+			with open(filename, 'w')as file_object:
+				file_object.write(str(self.stats.high_score))
 			self.stats.reset_stats()
 			self.stats.game_active = False
 			pygame.mouse.set_visible(True)

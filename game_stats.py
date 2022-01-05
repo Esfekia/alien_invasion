@@ -3,7 +3,8 @@ class GameStats:
 
 	def __init__(self, ai_game):
 		"""Initialize statistics."""
-		self.high_score = 0
+		with open('high_score.txt') as file_object:
+			self.high_score = int(file_object.read())
 		self.settings = ai_game.settings
 		self.reset_stats()
 		# Start Alien Invasion in an inactive state.

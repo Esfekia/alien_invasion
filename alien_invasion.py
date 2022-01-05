@@ -209,6 +209,7 @@ class AlienInvasion:
 			for aliens in collissions.values():
 				self.stats.score+= self.settings.alien_points * len(aliens)
 			self.sb.prep_score()
+			self.sb.check_high_score()
 
 		#Check to see if all aliens are dead:
 		if not self.aliens:

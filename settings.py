@@ -28,7 +28,7 @@ class Settings:
 		self.score_scale = 1.5
 
 		#Initial difficulty setting multiplier
-		self.initial_difficulty_multiplier = 3
+		self.initial_difficulty_multiplier = 2
 
 		self.initialize_dynamic_settings()
 

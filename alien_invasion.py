@@ -91,6 +91,7 @@ class AlienInvasion:
 	#Reset the game statistics and set active flag
 		self.stats.reset_stats()
 		self.stats.game_active = True
+		self.sb.prep_score()
 
 		#Get rid of remaining aliens and bullets
 		self.aliens.empty()
@@ -106,6 +107,7 @@ class AlienInvasion:
 	def start_hard(self):
 		#Reset the game statistics and set active flag
 		self.stats.reset_stats()
+		self.sb.prep_score()
 		self.stats.game_active = True
 		self.settings.ship_speed*=self.settings.initial_difficulty_multiplier
 		self.settings.bullet_speed*=self.settings.initial_difficulty_multiplier
